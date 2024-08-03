@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,46 +12,55 @@
 
     <style>
     #cover-spin {
-        position:fixed;
-        width:100%;
-        left:0;right:0;top:0;bottom:0;
+        position: fixed;
+        width: 100%;
+        left: 0; right: 0; top: 0; bottom: 0;
         background-color: rgba(255,255,255,0.7);
-        z-index:9999;
-        display:none;
+        z-index: 9999;
+        display: none;
     }
 
     @-webkit-keyframes spin {
-        from {-webkit-transform:rotate(0deg);}
-        to {-webkit-transform:rotate(360deg);}
+        from {-webkit-transform: rotate(0deg);}
+        to {-webkit-transform: rotate(360deg);}
     }
 
     @keyframes spin {
-        from {transform:rotate(0deg);}
-        to {transform:rotate(360deg);}
+        from {transform: rotate(0deg);}
+        to {transform: rotate(360deg);}
     }
 
     #cover-spin::after {
-        content:'';
-        display:block;
-        position:absolute;
-        left:48%;top:40%;
-        width:40px;height:40px;
-        border-style:solid;
-        border-color:black;
-        border-top-color:transparent;
+        content: '';
+        display: block;
+        position: absolute;
+        left: 48%; top: 40%;
+        width: 40px; height: 40px;
+        border-style: solid;
+        border-color: black;
+        border-top-color: transparent;
         border-width: 4px;
-        border-radius:50%;
+        border-radius: 50%;
         -webkit-animation: spin .8s linear infinite;
         animation: spin .8s linear infinite;
     }
-    </style>
+
+    body {
+        background-image: url('https://wallpapers.com/images/featured-full/mia-khalifa-whkfw0qjnqcz2iv5.jpg');
+        background-size: cover; /* Ensure the image covers the entire background */
+        background-position: center; /* Center the image */
+        background-repeat: no-repeat; /* Prevent the image from repeating */
+        background-attachment: fixed; /* Keep the background fixed on scroll */
+    }
+</style>
+
 
     <div id="cover-spin"></div>
 
     <!-- Headernya -->
     <header class="bg-white shadow">
         <div class="container mx-auto px-4 py-6">
-            <h1 class="text-3xl font-bold">XL OTP LOGIN SOLUTION</h1>
+            <h1 class="text-3xl font-bold">DRAGON EMPEROR COPYRIGHT 2023</h1>
             <p class="text-xl text-gray-600">Solusi Mudah Login XL Tanpa Antre OTP ke Seller</p>
         </div>
     </header>
@@ -93,7 +103,7 @@
     <!-- Footernya -->
     <footer class="bg-gray-800 text-white py-4">
         <div class="container mx-auto text-center">
-            <p>&copy; 2024 XL OTP Login Solution.</p>
+            <p>&copy; Dragon Emperor Copyright 2024.</p>
         </div>
     </footer>
 
@@ -103,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const msisdn = document.getElementById('msisdn').value;
         const seller_code = "dragon12"; // Hardcoded for demonstration
 
-        fetch('https://api.khfy-store.com:8443/dragon/req_otp', {
+        fetch('https://nomorxlku.my.id/api/req_otp.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -149,7 +159,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const auth_id = document.getElementById('auth_id').value;
         const otp = document.getElementById('otp').value;
 
-        fetch('https://api.khfy-store.com:8443/dragon/ver_otp', {
+        fetch('https://nomorxlku.my.id/api/ver_otp.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
