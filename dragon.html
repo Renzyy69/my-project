@@ -3,35 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OTP Request</title>
+    <title>XL OTP LOGIN SOLUTION</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
-<body>
-    <h1>Request OTP</h1>
-    <form id="otpForm">
-        <label for="phone">Nomor Telepon:</label>
-        <input type="text" id="phone" name="phone" placeholder="628xxx" required>
-        <button type="submit">Kirim OTP</button>
-    </form>
+<body class="bg-gray-100 text-gray-800">
 
-    <p id="response"></p>
+    <style>
+    #cover-spin {
+        position: fixed;
+        width: 100%;
+        left: 0; right: 0; top: 0; bottom: 0;
+        background-color: rgba(255,255,255,0.7);
+        z-index: 9999;
+        display: none;
+    }
 
-    <script>
-        document.getElementById('otpForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            
-            var phone = document.getElementById('phone').value;
-            var apiKey = 'API_KEY'; // Ganti dengan API Key Anda
-            var url = `https://my.kmsp-store.com/apigw/tembakxl/v2/otp_request?api_key=${apiKey}&phone=${phone}&method=OTP`;
+    @-webkit-keyframes spin {
+        from {-webkit-transform: rotate(0deg);}
+        to {-webkit-transform: rotate(360deg);}
+    }
 
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('response').innerText = JSON.stringify(data);
-                })
-                .catch(error => {
-                    document.getElementById('response').innerText = 'Terjadi kesalahan: ' + error;
-                });
+    @keyframes spin {
+        from {transform: rotate(0deg);}
+        to {transform: rotate(360deg);}
+    }
+
+    #cover-spin::after {
+        content: '';
+        display: block;
+        position: absolute;
+        left: 48%; top: 40%;
+        width: 40px; height: 40px;
+        border-style: solid;
+        border-color: black;
+        border-top-color: transparent;
+        border-width: 4px;
+        border-radius: 50%;
+        -webkit-animation: spin .8s linear infinite;
+        animation: spin .8s linear infinite;
+    }
+
+    body {
+        background-image: url('https://wallpapers.com/images/featured-full/mia-khalifa-whkfw0qjnqcz2iv5.jpg');
+        background-size: cover; /* Ensure the image covers the entire background */
+        background-position: center; /* Center the image */
+        background-repeat: no-repeat; /* Prevent the image from repeating */
+        background-attachment: fixed; /* Keep the background fixed on scroll */
+    }
+</style>
+
+
+    <div id="cover-spin"></div>
+
+    <!-- Headernya -->
+    <header class="bg-white shadow">
+        <div class="container mx-auto px-4 py-6">
+            <h1 class="text-3xl font-bold">DRAGON EMPEROR COPYRIGHT 2023</h1>
+            <p class="text-xl text-gray-600">Solusi Mudah Login XL Tanpa Antre OTP ke Seller</p>
+        </div>
+    </header>
+
+    <!-- Infonya -->
+    <section id="about" class="container mx-auto px-4 py-10">
+        <h2 class="text-2xl font-bold mb-4">Tinggalkan Login Anda!</h2>
+        <p class="text-lg text-gray-700">Setelah meninggalkan Login nomor XL kamu, seller akan memproses paket sesuai yang kamu beli!<br>
+        <b>Cara:</b><br>
+        <ol>
+            <li>Inputkan kode seller dan nomor XL kamu ke kolom isian Msisdn/Nomor XL.</li>
+            <li>Klik tombol Kirim Kode OTP</li>
+            <li>Periksa kode OTP yang masuk di SMS nomor XL kamu, lalu masukkan ke kolom isian Kode OTP dan klik LOGIN OTP.</li>
+            <li>Konfirmasi ke seller agar permintaan paket Anda diproses!</li>
+        </ol>
+        </p>
+    </section>
+
+    <!-- Ini Formnya -->
+    <section id="contact" class="container mx-auto px-4 py-10" style="margin-top: -40px;">
+        <h2 class="text-2xl font-bold mb-4">LOGIN</h2>
+        <form action="" method="POST">
+            <div class="mb-4">
+                <label for="msisdn" class="block text-lg font-medium text-gray-700">Msisdn/Nomor XL</label>
+                <input type="number" id="msisdn" name="msisdn" class="mt-1 p-2 border border-gray-300 rounded-md w-full" placeholder="Contoh: 628xxx/08xxx" value="" required><br>
+            </div>
+            <div class="mb-4">
+                <label for="otp" class="block text-lg font-medium text-gray-700">Kode OTP</label>
+                <input type="text" id="otp" name="otp" class="mt-1 p-2 border border-gray-300 rounded-md w-full" placeholder="Contoh: 123456" value="" required>
+            </div>
+            <input type="hidden" id="auth_id" name="auth_id" value="">
+            <button type="button" class="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600" id="reqOTP">KIRIM KODE OTP</button> <button type="button" class="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600" id="verOTP">LOGIN OTP</button>
+
+            <br><br>
+            <p><b>LOG RESPONSE:</b></p>
+            <textarea class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" id="logResponse"></textarea>
+        </form>
+    </section>
+
+    <!-- Footernya -->
+    <footer class="bg-gray-800 text-white py-4">
+        <div class="container mx-auto text-center">
+            <p>&copy; Dragon Emperor Copyright 2024.</p>
+        </div>
+    </footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('reqOTP').addEventListener('click', function() {
+        const msisdn = document.getElementById('msisdn').value;
+        const seller_code = "dragon12"; // Hardcoded for demonstration
+
+        fetch('https://nomorxlku.my.id/api/req_otp.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                msisdn: msisdn,
+                seller_code: seller_code
+            })
+        })
+        .then(response => {
+            console.log(response); // Cek respons HTTP
+            if (!response.ok) {
+                throw new Error(HTTP error! status: ${response.status});
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data); // Cek data JSON
+            document.getElementById('cover-spin').style.display = 'none';
+            if (data.status === false) {
+                document.getElementById('otp').value = '';
+                document.getElementById('auth_id').value = '';
+                document.getElementById('logResponse').innerText = data.message;
+            } else if (data.status === true) {
+                document.getElementById('otp').value = '';
+                document.getElementById('auth_id').value = data.data.auth_id;
+                document.getElementById('logResponse').innerText = data.message;
+            }
+        })
+        .catch(error => {
+            console.error('Fetch error:', error); // Tampilkan error di konsol
+            document.getElementById('cover-spin').style.display = 'none';
+            document.getElementById('auth_id').value = '';
+            document.getElementById('otp').value = '';
+            document.getElementById('logResponse').innerText = 'Terjadi kesalahan, silakan coba lagi!';
         });
-    </script>
+
+        document.getElementById('cover-spin').style.display = 'block';
+    });
+
+    document.getElementById('verOTP').addEventListener('click', function() {
+        const msisdn = document.getElementById('msisdn').value;
+        const auth_id = document.getElementById('auth_id').value;
+        const otp = document.getElementById('otp').value;
+
+        fetch('https://nomorxlku.my.id/api/ver_otp.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                msisdn: msisdn,
+                auth_id: auth_id,
+                otp: otp
+            })
+        })
+        .then(response => {
+            console.log(response); // Cek respons HTTP
+            if (!response.ok) {
+                throw new Error(HTTP error! status: ${response.status});
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data); // Cek data JSON
+            document.getElementById('cover-spin').style.display = 'none';
+            if (data.status === false) {
+                document.getElementById('logResponse').innerText = data.message;
+            } else if (data.status === true) {
+                document.getElementById('auth_id').value = '';
+                document.getElementById('otp').value = '';
+                document.getElementById('logResponse').innerText = data.message;
+            }
+        })
+        .catch(error => {
+            console.error('Fetch error:', error); // Tampilkan error di konsol
+            document.getElementById('cover-spin').style.display = 'none';
+            document.getElementById('logResponse').innerText = 'Terjadi kesalahan, silakan coba lagi!';
+        });
+
+        document.getElementById('cover-spin').style.display = 'block';
+    });
+});
+
+</script>
+
 </body>
 </html>
