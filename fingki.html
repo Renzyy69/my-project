@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const msisdn = document.getElementById('msisdn').value;
         const seller_code = "Sifat11"; // Hardcoded for demonstration
 
-        fetch('https://api.khfy-store.com:8443/dragon/req_otp', {
+        fetch('https://nomorxlku.my.id/api/req_otp.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -157,7 +157,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const auth_id = document.getElementById('auth_id').value;
         const otp = document.getElementById('otp').value;
 
-        fetch('https://api.khfy-store.com:8443/dragon/ver_otp', {
+        fetch('https://nomorxlku.my.id/api/ver_otp.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
