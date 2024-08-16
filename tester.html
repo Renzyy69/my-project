@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Dragon Emperor OTP Solution</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Moh Nor Kholis">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://my.kmsp-store.com/assets/css/spinner.css">
+    <link href="https://my.kmsp-store.com/assets/build/toastr.css" rel="stylesheet" type="text/css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        @media only screen and (min-width: 200px) {
+            .atur1 { width: 90%; }
+        }
+        @media only screen and (min-width: 600px) {
+            .atur1 { width: 80%; }
+        }
+        @media only screen and (min-width: 1000px) {
+            .atur1 { width: 50%; }
+        }
+        @media only screen and (min-width: 1300px) {
+            .atur1 { width: 30%; }
+        }
+        body {
+            background-image: url('https://raw.githubusercontent.com/Renzyy69/vip/main/1722876653760.jpg'); /* Ganti dengan path ke gambar kamu */
+            background-size: cover; /* Menyesuaikan gambar dengan ukuran layar */
+            background-position: center; /* Memposisikan gambar di tengah */
+            font-family: 'Arial', sans-serif;
+            color: #333333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Menggunakan min-height agar sesuai dengan isi halaman */
+        }
+        .container {
+            margin-top: 20px;
+            margin-bottom: 100px;
+            padding: 20px;
+            background: #cfe4e5;
+            border-radius: 8px;
+            transition: transform 0.3s ease-in-out;
+            max-width: 90%;
+        }
+        .container:hover {
+            transform: scale(1.05);
+        }
+        h3 {
+            font-weight: bold;
+            color: #333333;
+        }
+        #hasilnya {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .alert {
+            background: #f1f1f1;
+            border: none;
+            color: #333333;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+        .form-control {
+            border-radius: 8px;
+            box-shadow: none;
+            border-color: #dddddd;
+            padding: 10px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            border: none;
+            border-radius: 8px;
+            box-shadow: none;
+            padding: 10px 20px;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s ease-in-out;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #2575fc, #6a11cb);
+        }
+        #cover-spin {
+            position: fixed;
+            width: 100%;
+            left: 0; right: 0; top: 0; bottom: 0;
+            background-color: rgba(255, 255, 255, 0.7);
+            z-index: 9999;
+            display: none;
+        }
+        @-webkit-keyframes spin {
+            0% { -webkit-transform: rotate(0deg); }
+            100% { -webkit-transform: rotate(360deg); }
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        #cover-spin::after {
+            content: '';
+            display: block;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 40px;
+            height: 40px;
+            border-style: solid;
+            border-color: black;
+            border-top-color: transparent;
+            border-width: 4px;
+            border-radius: 50%;
+            -webkit-animation: spin .8s linear infinite;
+            animation: spin .8s linear infinite;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+<body>
+<div id="cover-spin"></div>
+<div class="container atur1">
+    <center>
+        <h3>Verifikasi Login & Cek Kuota </h3>
+        <b>Dragon Emperor 🐉</b>
+    </center>
+    <br>
+    <div class="alert alert-success">
+        <strong><i class="fa fa-bullhorn" aria-hidden="true"></i> INFO</strong><br>
+        Awali aktivitas dengan ibadah
+    </div>
+    <div id="formnya">
+        <div id="buttonNew" style="display: none;">
+            <div class="alert alert-success">
+                <strong><i class="fa fa-bullhorn" aria-hidden="true"></i> Details XL </strong><br><br>
+                <button type="button" class="btn btn-primary" onclick="cek_quota()">
+                    <i class="fa fa-sign-in" aria-hidden="true"></i> Cek Quota & Pulsa
+                </button>
+            </div>
+        </div>
+        <div id="form">
+            <div class="form-group">
+                <label for="msisdn">Nomor XL/AXIS Kamu:</label>
+                <input type="number" class="form-control" id="msisdn" placeholder="Ex: 0878xxx/62878xxx" maxlength="16" required>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="cek_msisdn()">
+                <i class="fa fa-sign-in" aria-hidden="true"></i> Cek Status Login
+            </button>
+            <button type="button" class="btn btn-primary" onclick="minta_otp()">
+                <i class="fa fa-sign-in" aria-hidden="true"></i> Minta Kode OTP
+            </button>
+            <br><br>
+            <label for="otp">Kode OTP :</label>
+            <input type="number" class="form-control" id="otp" maxlength="6" required>
+            <button type="button" class="btn btn-primary" onclick="login_otp()">
+                <i class="fa fa-sign-in" style="display: none" aria-hidden="true"></i> Login
+            </button>  
+        </div>
+        <div id="logoutt" style="display: none;">
+            <button type="button" class="btn btn-primary" onclick="logout()">
+                <i class="fa fa-sign-in" aria-hidden="true"></i> Logout
+            </button>  
+        </div>
+        <div id="hasilnya" style="text-align: justify;">
+            <p id="packageDetail"></p>
+        </div>
+    </div><br>
+</div>
+<script type="text/javascript">
+    function logout () {
+        const loginForm = document.getElementById('form');
+        const Logout = document.getElementById('logoutt');
+        const buttonNew = document.getElementById('buttonNew');
+        loginForm.style.display = 'block';
+        Logout.style.display = 'none';
+        buttonNew.style.display = 'none';
+    }
+
+    function cek_quota () {
+        const access_token = sessionStorage.getItem('access_token');
+        const coverSpin = document.getElementById('cover-spin');
+        const loginForm = document.getElementById('form');
+        const Logout = document.getElementById('logoutt');
+        const msisdnInput = document.getElementById('msisdn');
+        const hasilnya = document.getElementById('hasilnya');
+
+        const msisdn = msisdnInput.value;
+        if (!msisdn) return;
+        coverSpin.style.display = 'block';
+
+        fetch(`https://api.khfy-store.com:8443/api-xl-v7/custom_api_xl_v7?action=cek_kuota_pulsa&accesstoken=${access_token}`, {
+            method: 'GET'
+        })
+        .then(response => response.json())
+        .then(s => {
+            coverSpin.style.display = 'none';
+            if (s.status === 'success') {
+                hasilnya.innerHTML = `<strong>Quota:</strong> ${s.quota} <br><strong>Pulsa:</strong> ${s.pulsa}`;
+            } else {
+                hasilnya.innerHTML = '<strong>ERROR:</strong> Gagal mengambil data!';
+            }
+        })
+        .catch(error => {
+            coverSpin.style.display = 'none';
+            hasilnya.innerHTML = `<strong>ERROR:</strong> ${error}`;
+        });
+    }
+
+    function cek_msisdn () {
+        const msisdnInput = document.getElementById('msisdn');
+        const msisdn = msisdnInput.value;
+        const coverSpin = document.getElementById('cover-spin');
+        const buttonNew = document.getElementById('buttonNew');
+        const loginForm = document.getElementById('form');
+        const Logout = document.getElementById('logoutt');
+
+        if (!msisdn) return;
+        coverSpin.style.display = 'block';
+
+        fetch(`https://api.khfy-store.com:8443/api-xl-v7/custom_api_xl_v7?action=cek_msisdn&msisdn=${msisdn}`)
+        .then(response => response.json())
+        .then(s => {
+            coverSpin.style.display = 'none';
+            if (s.status === 'success') {
+                loginForm.style.display = 'none';
+                Logout.style.display = 'block';
+                buttonNew.style.display = 'block';
+            } else {
+                alert('Nomor tidak ditemukan atau tidak valid!');
+            }
+        })
+        .catch(error => {
+            coverSpin.style.display = 'none';
+            alert('Terjadi kesalahan: ' + error);
+        });
+    }
+
+    function minta_otp () {
+        const msisdnInput = document.getElementById('msisdn');
+        const msisdn = msisdnInput.value;
+        const coverSpin = document.getElementById('cover-spin');
+
+        if (!msisdn) return;
+        coverSpin.style.display = 'block';
+
+        fetch(`https://api.khfy-store.com:8443/api-xl-v7/custom_api_xl_v7?action=minta_otp&msisdn=${msisdn}`)
+        .then(response => response.json())
+        .then(s => {
+            coverSpin.style.display = 'none';
+            if (s.status === 'success') {
+                alert('Kode OTP sudah dikirim!');
+            } else {
+                alert('Gagal meminta OTP!');
+            }
+        })
+        .catch(error => {
+            coverSpin.style.display = 'none';
+            alert('Terjadi kesalahan: ' + error);
+        });
+    }
+
+    function login_otp () {
+        const msisdnInput = document.getElementById('msisdn');
+        const otpInput = document.getElementById('otp');
+        const msisdn = msisdnInput.value;
+        const otp = otpInput.value;
+        const coverSpin = document.getElementById('cover-spin');
+
+        if (!msisdn || !otp) return;
+        coverSpin.style.display = 'block';
+
+        fetch(`https://api.khfy-store.com:8443/api-xl-v7/custom_api_xl_v7?action=login_otp&msisdn=${msisdn}&otp=${otp}`)
+        .then(response => response.json())
+        .then(s => {
+            coverSpin.style.display = 'none';
+            if (s.status === 'success') {
+                alert('Login berhasil!');
+                sessionStorage.setItem('access_token', s.access_token);
+                document.getElementById('form').style.display = 'none';
+                document.getElementById('logoutt').style.display = 'block';
+                document.getElementById('buttonNew').style.display = 'block';
+            } else {
+                alert('Kode OTP salah atau masa berlaku habis!');
+            }
+        })
+        .catch(error => {
+            coverSpin.style.display = 'none';
+            alert('Terjadi kesalahan: ' + error);
+        });
+    }
+</script>
+</body>
+</html>
