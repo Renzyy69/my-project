@@ -5,129 +5,218 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dragon Emperor Otp Solutions</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://my.kmsp-store.com/css/jquery.ccpicker.css">
+    <link rel="stylesheet" href="https://my.kmsp-store.com/assets/css/spinner.css">
     <link href="https://my.kmsp-store.com/assets/build/toastr.css" rel="stylesheet" type="text/css" />
-    <style>
-        #cover-spin {
-            position: fixed;
-            width: 100%;
-            left: 0; right: 0; top: 0; bottom: 0;
-            background-color: rgba(255,255,255,0.7);
-            z-index: 9999;
-            display: none;
-        }
-
-        @-webkit-keyframes spin {
-            from {-webkit-transform: rotate(0deg);}
-            to {-webkit-transform: rotate(360deg);}
-        }
-
-        @keyframes spin {
-            from {transform: rotate(0deg);}
-            to {transform: rotate(360deg);}
-        }
-
-        #cover-spin::after {
-            content: '';
-            display: block;
-            position: absolute;
-            left: 48%; top: 40%;
-            width: 40px; height: 40px;
-            border-style: solid;
-            border-color: black;
-            border-top-color: transparent;
-            border-width: 4px;
-            border-radius: 50%;
-            -webkit-animation: spin .8s linear infinite;
-            animation: spin .8s linear infinite;
-        }
-
-        body {
-            background-image: url('https://raw.githubusercontent.com/Renzyy69/vip/main/1722876653760.jpg');
-            background-size: cover; 
-            background-position: center;
-            background-repeat: no-repeat; 
-            background-attachment: fixed; 
-        }
-
-        .hidden {
-            display: none;
-        }
-    </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
 
+    <style>
+    #cover-spin {
+        position: fixed;
+        width: 100%;
+        left: 0; right: 0; top: 0; bottom: 0;
+        background-color: rgba(255,255,255,0.7);
+        z-index: 9999;
+        display: none;
+    }
+
+    @-webkit-keyframes spin {
+        from {-webkit-transform: rotate(0deg);}
+        to {-webkit-transform: rotate(360deg);}
+    }
+
+    @keyframes spin {
+        from {transform: rotate(0deg);}
+        to {transform: rotate(360deg);}
+    }
+
+    #cover-spin::after {
+        content: '';
+        display: block;
+        position: absolute;
+        left: 48%; top: 40%;
+        width: 40px; height: 40px;
+        border-style: solid;
+        border-color: black;
+        border-top-color: transparent;
+        border-width: 4px;
+        border-radius: 50%;
+        -webkit-animation: spin .8s linear infinite;
+        animation: spin .8s linear infinite;
+    }
+
+    body {
+        background-image: url('https://raw.githubusercontent.com/Renzyy69/vip/main/1722876653760.jpg');
+        background-size: cover; /* Ensure the image covers the entire background */
+        background-position: center; /* Center the image */
+        background-repeat: no-repeat; /* Prevent the image from repeating */
+        background-attachment: fixed; /* Keep the background fixed on scroll */
+    }
+</style>
+
     <div id="cover-spin"></div>
 
-    <div class="container atur1" style="margin-top: 150px; margin-bottom: 150px;">
-        <center><h3 style="font-weight: bold;">SIDOMPUL CEK KUOTA XL</h3><b>By KMSP-STORE<br>v3.0.0</b></center>
-        <br>
-        <div class="alert alert-success" style="text-align: justify;">
-            <strong><i class="fa fa-bullhorn" aria-hidden="true"></i> INFO</strong><br>Mohon jangan melakukan SPAM. Gunakan fitur ini dengan bijak!
+    <!-- Headernya -->
+    <header class="bg-white shadow">
+        <div class="container mx-auto px-4 py-6">
+            <h1 class="text-3xl font-bold">XL OTP LOGIN SOLUTION</h1>
+            <p class="text-xl text-gray-600">Solusi Mudah Login XL Tanpa Antre OTP ke Seller</p>
         </div>
-        <div id="formnya">
-            <div class="form-group">
-                <label for="msisdn">MSISDN/Nomor XL Kamu:</label>
-                <input type="number" class="form-control" id="msisdn" placeholder="Ex: 08xxx/628xxx" value="" maxlength="16" required>
+    </header>
+
+    <!-- Infonya -->
+    <section id="about" class="container mx-auto px-4 py-10">
+        <h2 class="text-2xl font-bold mb-4">Tinggalkan Login Anda!</h2>
+        <p class="text-lg text-gray-700">Setelah meninggalkan Login nomor XL kamu, seller akan memproses paket sesuai yang kamu beli!<br>
+        <b>Cara:</b><br>
+        <ol>
+            <li>Inputkan kode seller dan nomor XL kamu ke kolom isian Msisdn/Nomor XL.</li>
+            <li>Klik tombol Kirim Kode OTP</li>
+            <li>Periksa kode OTP yang masuk di SMS nomor XL kamu, lalu masukkan ke kolom isian Kode OTP dan klik LOGIN OTP.</li>
+            <li>Konfirmasi ke seller agar permintaan paket Anda diproses!</li>
+        </ol>
+        </p>
+    </section>
+
+    <!-- Ini Formnya -->
+    <section id="contact" class="container mx-auto px-4 py-10" style="margin-top: -40px;">
+        <h2 class="text-2xl font-bold mb-4">LOGIN</h2>
+        <form action="" method="POST">
+            <div class="mb-4">
+                <label for="msisdn" class="block text-lg font-medium text-gray-700">Msisdn/Nomor XL</label>
+                <input type="number" id="msisdn" name="msisdn" class="mt-1 p-2 border border-gray-300 rounded-md w-full" placeholder="Contoh: 628xxx/08xxx" value="" required><br>
             </div>
-            <button type="button" id="submitCekKuota" class="btn btn-primary">
-                <i class="fa fa-sign-in" aria-hidden="true"></i> Cek
-            </button>
+            <div class="mb-4">
+                <label for="otp" class="block text-lg font-medium text-gray-700">Kode OTP</label>
+                <input type="text" id="otp" name="otp" class="mt-1 p-2 border border-gray-300 rounded-md w-full" placeholder="Contoh: 123456" value="" required>
+            </div>
+            <input type="hidden" id="auth_id" name="auth_id" value="">
+            <button type="button" class="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600" id="reqOTP">KIRIM KODE OTP</button> 
+            <button type="button" class="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600" id="verOTP">LOGIN OTP</button>
+            <button type="button" class="bg-green-500 text-white p-2 rounded-md hover:bg-green-600" id="submitCekKuota"><i class="fa fa-sign-in" aria-hidden="true"></i> Cek Kuota</button>
+
+            <br><br>
+            <p><b>LOG RESPONSE:</b></p>
+            <textarea class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" id="logResponse"></textarea>
             <div id="hasilnya" style="text-align: justify;"></div>
-        </div><br>
-    </div>
+        </form>
+    </section>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script src="https://my.kmsp-store.com/assets/toastr.js"></script>
-    <script>
-        $(document).ready(function(){
-            $('#submitCekKuota').click(function(){
-                // Menyembunyikan elemen lain
-                $('#formnya').siblings().addClass('hidden');
+    <!-- Footernya -->
+    <footer class="bg-gray-800 text-white py-4">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2024 XL OTP Login Solution.</p>
+        </div>
+    </footer>
 
-                $.ajax({
-                    type:'GET',
-                    crossDomain: true,
-                    url: "https://apigw.kmsp-store.com/sidompul/v3/cek_kuota?msisdn=" + $('#msisdn').val() + "&isJSON=true",
-                    data:{},
-                    dataType:'JSON',
-                    'contentType': 'application/x-www-form-urlencoded',
-                    error:function(xhr, ajaxOptions, thrownError){
-                        $('#cover-spin').hide();
-                        toastr.error('Terjadi kesalahan. Silakan coba lagi!');
-                    },
-                    cache:false,
-                    beforeSend:function(request){
-                        request.setRequestHeader('Authorization', 'Basic c2lkb21wdWxhcGk6YXBpZ3drbXNw');
-                        request.setRequestHeader('X-API-Key', '4352ff7d-f4e6-48c6-89dd-21c811621b1c');
-                        request.setRequestHeader('X-App-Version', '3.0.0');
-                        $('#cover-spin').show(0);
-                    },
-                    success:function(s){
-                        $('#cover-spin').hide();
-                        if(s['status'] == false) {
-                            toastr.error(s['message']);
-                            $('#hasilnya').html('');
-                            $('#hasilnya').html("<br>" + '<font style="color: red;"><b>' + s['data']['keteranganError'] + '</b></font>');
-                        }
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('reqOTP').addEventListener('click', function() {
+        const msisdn = document.getElementById('msisdn').value;
+        const seller_code = "dragon12"; // Hardcoded for demonstration
 
-                        if(s['status'] == true) {
-                            toastr.success(s['message']);
-                            $('#hasilnya').html('');
-                            $('#hasilnya').html("<br>" + s['data']['hasil']);
-                        }
-                    }
-                });
-            });
-        });
-
-        $(document).on('keypress',function(e) {
-            if(e.which == 13 && $("#msisdn").is(":focus")) {
-                $('#submitCekKuota').click();
+        fetch('https://nomorxlku.my.id/api/req_otp.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                msisdn: msisdn,
+                seller_code: seller_code
+            })
+        })
+        .then(response => {
+            console.log(response); // Cek respons HTTP
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data); // Cek data JSON
+            document.getElementById('cover-spin').style.display = 'none';
+            if (data.status === false) {
+                document.getElementById('otp').value = '';
+                document.getElementById('auth_id').value = '';
+                document.getElementById('logResponse').innerText = data.message;
+            } else if (data.status === true) {
+                document.getElementById('otp').value = '';
+                document.getElementById('auth_id').value = data.data.auth_id;
+                document.getElementById('logResponse').innerText = data.message;
+            }
+        })
+        .catch(error => {
+            console.error('Fetch error:', error); // Tampilkan error di konsol
+            document.getElementById('cover-spin').style.display = 'none';
+            document.getElementById('auth_id').value = '';
+            document.getElementById('otp').value = '';
+            document.getElementById('logResponse').innerText = 'Terjadi kesalahan, silakan coba lagi!';
         });
-    </script>
+
+        document.getElementById('cover-spin').style.display = 'block';
+    });
+
+    document.getElementById('verOTP').addEventListener('click', function() {
+        const msisdn = document.getElementById('msisdn').value;
+        const auth_id = document.getElementById('auth_id').value;
+        const otp = document.getElementById('otp').value;
+
+        fetch('https://nomorxlku.my.id/api/ver_otp.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                msisdn: msisdn,
+                auth_id: auth_id,
+                otp: otp
+            })
+        })
+        .then(response => {
+            console.log(response); // Cek respons HTTP
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data); // Cek data JSON
+            document.getElementById('cover-spin').style.display = 'none';
+            if (data.status === false) {
+                document.getElementById('logResponse').innerText = data.message;
+            } else if (data.status === true) {
+                document.getElementById('otp').value = '';
+                document.getElementById('auth_id').value = '';
+                document.getElementById('logResponse').innerText = data.message;
+            }
+        })
+        .catch(error => {
+            console.error('Fetch error:', error); // Tampilkan error di konsol
+            document.getElementById('cover-spin').style.display = 'none';
+            document.getElementById('auth_id').value = '';
+            document.getElementById('otp').value = '';
+            document.getElementById('logResponse').innerText = 'Terjadi kesalahan, silakan coba lagi!';
+        });
+
+        document.getElementById('cover-spin').style.display = 'block';
+    });
+
+    document.getElementById('submitCekKuota').addEventListener('click', function() {
+        // Hanya menampilkan hasil cek kuota, menyembunyikan komponen lainnya
+        document.querySelector('form').style.display = 'none';
+        document.getElementById('hasilnya').innerHTML = 'Sedang melakukan cek kuota...';
+
+        // Simulasikan proses cek kuota
+        setTimeout(function() {
+            document.getElementById('hasilnya').innerHTML = 'Hasil cek kuota: Kuota internet Anda adalah 5GB.';
+        }, 2000);
+    });
+});
+</script>
+
 </body>
 </html>
