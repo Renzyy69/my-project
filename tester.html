@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dragon Emperor Otp Solutions</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://my.kmsp-store.com/assets/build/toastr.css" rel="stylesheet" type="text/css" />
+    <style>
+        #cover-spin {
+            position: fixed;
+            width: 100%;
+            left: 0; right: 0; top: 0; bottom: 0;
+            background-color: rgba(255,255,255,0.7);
+            z-index: 9999;
+            display: none;
+        }
+
+        @-webkit-keyframes spin {
+            from {-webkit-transform: rotate(0deg);}
+            to {-webkit-transform: rotate(360deg);}
+        }
+
+        @keyframes spin {
+            from {transform: rotate(0deg);}
+            to {transform: rotate(360deg);}
+        }
+
+        #cover-spin::after {
+            content: '';
+            display: block;
+            position: absolute;
+            left: 48%; top: 40%;
+            width: 40px; height: 40px;
+            border-style: solid;
+            border-color: black;
+            border-top-color: transparent;
+            border-width: 4px;
+            border-radius: 50%;
+            -webkit-animation: spin .8s linear infinite;
+            animation: spin .8s linear infinite;
+        }
+
+        body {
+            background-image: url('https://raw.githubusercontent.com/Renzyy69/vip/main/1722876653760.jpg');
+            background-size: cover; 
+            background-position: center;
+            background-repeat: no-repeat; 
+            background-attachment: fixed; 
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div id="cover-spin"></div>
+
+    <div class="container atur1" style="margin-top: 150px; margin-bottom: 150px;">
+        <center><h3 style="font-weight: bold;">SIDOMPUL CEK KUOTA XL</h3><b>By KMSP-STORE<br>v3.0.0</b></center>
+        <br>
+        <div class="alert alert-success" style="text-align: justify;">
+            <strong><i class="fa fa-bullhorn" aria-hidden="true"></i> INFO</strong><br>Mohon jangan melakukan SPAM. Gunakan fitur ini dengan bijak!
+        </div>
+        <div id="formnya">
+            <div class="form-group">
+                <label for="msisdn">MSISDN/Nomor XL Kamu:</label>
+                <input type="number" class="form-control" id="msisdn" placeholder="Ex: 08xxx/628xxx" value="" maxlength="16" required>
+            </div>
+            <button type="button" id="submitCekKuota" class="btn btn-primary">
+                <i class="fa fa-sign-in" aria-hidden="true"></i> Cek
+            </button>
+            <div id="hasilnya" style="text-align: justify;"></div>
+        </div><br>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://my.kmsp-store.com/assets/toastr.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#submitCekKuota').click(function(){
+                // Menyembunyikan elemen lain
+                $('#formnya').siblings().addClass('hidden');
+
+                $.ajax({
+                    type:'GET',
+                    crossDomain: true,
+                    url: "https://apigw.kmsp-store.com/sidompul/v3/cek_kuota?msisdn=" + $('#msisdn').val() + "&isJSON=true",
+                    data:{},
+                    dataType:'JSON',
+                    'contentType': 'application/x-www-form-urlencoded',
+                    error:function(xhr, ajaxOptions, thrownError){
+                        $('#cover-spin').hide();
+                        toastr.error('Terjadi kesalahan. Silakan coba lagi!');
+                    },
+                    cache:false,
+                    beforeSend:function(request){
+                        request.setRequestHeader('Authorization', 'Basic c2lkb21wdWxhcGk6YXBpZ3drbXNw');
+                        request.setRequestHeader('X-API-Key', '4352ff7d-f4e6-48c6-89dd-21c811621b1c');
+                        request.setRequestHeader('X-App-Version', '3.0.0');
+                        $('#cover-spin').show(0);
+                    },
+                    success:function(s){
+                        $('#cover-spin').hide();
+                        if(s['status'] == false) {
+                            toastr.error(s['message']);
+                            $('#hasilnya').html('');
+                            $('#hasilnya').html("<br>" + '<font style="color: red;"><b>' + s['data']['keteranganError'] + '</b></font>');
+                        }
+
+                        if(s['status'] == true) {
+                            toastr.success(s['message']);
+                            $('#hasilnya').html('');
+                            $('#hasilnya').html("<br>" + s['data']['hasil']);
+                        }
+                    }
+                });
+            });
+        });
+
+        $(document).on('keypress',function(e) {
+            if(e.which == 13 && $("#msisdn").is(":focus")) {
+                $('#submitCekKuota').click();
+            }
+        });
+    </script>
+</body>
+</html>
