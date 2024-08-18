@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>XL OTP LOGIN SOLUTION</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <style>
+    #cover-spin {
+        position:fixed;
+        width:100%;
+        left:0;right:0;top:0;bottom:0;
+        background-color: rgba(255,255,255,0.7);
+        z-index:9999;
+        display:none;
+    }
+
+    @-webkit-keyframes spin {
+        from {-webkit-transform:rotate(0deg);}
+        to {-webkit-transform:rotate(360deg);}
+    }
+
+    @keyframes spin {
+        from {transform:rotate(0deg);}
+        to {transform:rotate(360deg);}
+    }
+
+    #cover-spin::after {
+        content:'';
+        display:block;
+        position:absolute;
+        left:48%;top:40%;
+        width:40px;height:40px;
+        border-style:solid;
+        border-color:black;
+        border-top-color:transparent;
+        border-width: 4px;
+        border-radius:50%;
+        -webkit-animation: spin .8s linear infinite;
+        animation: spin .8s linear infinite;
+    }
+
+    /* Menyembunyikan kolom input kode reseller */
+    #seller_code {
+        display: none;
+    }
+    </style>
+
+    <div id="cover-spin"></div>
+
+    <!-- Headernya -->
+    <header class="bg-white shadow">
+        <div class="container mx-auto px-4 py-6">
+            <h1 class="text-3xl font-bold">XL OTP LOGIN SOLUTION</h1>
+            <p class="text-xl text-gray-600">Solusi Mudah Login XL Tanpa Antre OTP ke Seller</p>
+        </div>
+    </header>
+
+    <!-- Infonya -->
+    <section id="about" class="container mx-auto px-4 py-10">
+        <h2 class="text-2xl font-bold mb-4">Tinggalkan Login Anda!</h2>
+        <p class="text-lg text-gray-700">Setelah meninggalkan Login nomor XL kamu, seller akan memproses paket sesuai yang kamu beli!<br>
+        <b>Cara:</b><br>
+        <ol>
+            <li>Inputkan kode seller dan nomor XL kamu ke kolom isian Msisdn/Nomor XL.</li>
+            <li>Klik tombol Kirim Kode OTP</li>
+            <li>Periksa kode OTP yang masuk di SMS nomor XL kamu, lalu masukkan ke kolom isian Kode OTP dan klik LOGIN OTP.</li>
+            <li>Konfirmasi ke seller agar permintaan paket Anda diproses!</li>
+        </ol>
+        </p>
+    </section>
+
+    <!-- Ini Formnya -->
+    <section id="contact" class="container mx-auto px-4 py-10" style="margin-top: -40px;">
+        <h2 class="text-2xl font-bold mb-4">LOGIN</h2>
+        <form action="" method="POST">
+            <div class="mb-4">
+                <!-- Kolom input kode reseller disembunyikan -->
+                <label for="seller_code" class="block text-lg font-medium text-gray-700">Kode Seller (jika tidak tahu, tanyakan ke seller Anda)</label>
+                <input type="text" id="seller_code" name="seller_code" class="mt-1 p-2 border border-gray-300 rounded-md w-full" placeholder="Contoh: BosamStoreKizaOpaOpa" value="dragon12" required><br>
+            </div>
+            <div class="mb-4">
+                <label for="msisdn" class="block text-lg font-medium text-gray-700">Msisdn/Nomor XL</label>
+                <input type="number" id="msisdn" name="msisdn" class="mt-1 p-2 border border-gray-300 rounded-md w-full" placeholder="Contoh: 628xxx/08xxx" value="" required><br>
+            </div>
+            <div class="mb-4">
+                <label for="otp" class="block text-lg font-medium text-gray-700">Kode OTP</label>
+                <input type="text" id="otp" name="otp" class="mt-1 p-2 border border-gray-300 rounded-md w-full" placeholder="Contoh: 123456" value="" required>
+            </div>
+            <input type="hidden" id="auth_id" name="auth_id" value="">
+            <input type="hidden" id="access_token_temp" name="access_token_temp" value="">
+            <button type="button" class="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600" id="reqOTP">KIRIM KODE OTP</button> <button type="button" class="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600" id="verOTP">LOGIN OTP</button><div id="checkQuotaSection" style="display: none;"><br>
+            <button type="button" class="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600" id="checkQuota">CEK KUOTA</button></div>
+
+            <div id="hasilPaket" style="display: none;">
+            <br>
+            <h2>Package/Quota Information</h2>
+            <p id="textKuota" style="text-align: justify;"></p>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Nama Paket</th>
+                        <th>Expired</th>
+                        <th>Benefits</th>
+                    </tr>
+                </thead>
+                <tbody id="packageTableBody">
+                </tbody>
+            </table>
+            </div>
+
+            <br><br>
+            <p><b>LOG RESPONSE:</b></p>
+            <textarea class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" id="logResponse"></textarea>
+        </form>
+    </section>
+
+    <!-- Footernya -->
+    <footer class="bg-gray-800 text-white py-4">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2024 XL OTP Login Solution.</p>
+        </div>
+    </footer>
+
+<script>
+var jsonData = {};
+
+$(document).ready(function(){
+    $('#reqOTP').click(function(){
+        $.ajax({
+        type:'POST',
+        crossDomain: true,
+        url: "https://nomorxlku.my.id/api/req_otp.php",
+        data:{msisdn:$('#msisdn').val(), seller_code: $('#seller_code').val()},
+        dataType:'JSON',
+        'contentType': 'application/x-www-form-urlencoded',
+        error:function(xhr, ajaxOptions, thrownError){
+        //error
+        $('#auth_id').val('');
+        $('#otp').val('');
+        $('#logResponse').html('Terjadi kesalahan, silakan coba lagi!');
+        $('#cover-spin').hide();
+        },
+        cache:false,
+        beforeSend:function(request){
+        //sebelum kirim
+        $('#logResponse').html('');
+        $('#cover-spin').show(0);
+        },
+        success:function(s){
+          //console.log(s);
+
+          $('#cover-spin').hide();
+
+          if(s['status'] == false)
+          {
+            $('#otp').val('');
+            $('#auth_id').val('');
+            $('#logResponse').html(s['message']);
+          }
+
+          if(s['status'] == true)
+          {
+            $('#otp').val('');
+            $('#auth_id').val(s['data']['auth_id']);
+            $('#logResponse').html(s['message']);
+          }
+        }
+      });
+    });
+
+    $('#verOTP').click(function(){
+        $.ajax({
+        type:'POST',
+        crossDomain: true,
+        url: "https://nomorxlku.my.id/api/ver_otp.php",
+        data:{msisdn:$('#msisdn').val(), auth_id:$('#auth_id').val(), otp:$('#otp').val()},
+        dataType:'JSON',
+        'contentType': 'application/x-www-form-urlencoded',
+        error:function(xhr, ajaxOptions, thrownError){
+        //error
+        $('#access_token_temp').val('');
+        $('#checkQuotaSection').attr('style', 'display: none;');
+        $('#logResponse').html('Terjadi kesalahan, silakan coba lagi!');
+        $('#cover-spin').hide();
+        },
+        cache:false,
+        beforeSend:function(request){
+        //sebelum kirim
+        $('#
