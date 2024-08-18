@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,11 +50,6 @@
         -webkit-animation: spin .8s linear infinite;
         animation: spin .8s linear infinite;
     }
-
-    /* Menyembunyikan kolom input kode reseller */
-    #seller_code {
-        display: none;
-    }
     </style>
 
     <div id="cover-spin"></div>
@@ -84,8 +80,7 @@
     <section id="contact" class="container mx-auto px-4 py-10" style="margin-top: -40px;">
         <h2 class="text-2xl font-bold mb-4">LOGIN</h2>
         <form action="" method="POST">
-            <div class="mb-4">
-                <!-- Kolom input kode reseller disembunyikan -->
+            <div class="mb-4" hidden>
                 <label for="seller_code" class="block text-lg font-medium text-gray-700">Kode Seller (jika tidak tahu, tanyakan ke seller Anda)</label>
                 <input type="text" id="seller_code" name="seller_code" class="mt-1 p-2 border border-gray-300 rounded-md w-full" placeholder="Contoh: BosamStoreKizaOpaOpa" value="dragon12" required><br>
             </div>
@@ -197,4 +192,99 @@ $(document).ready(function(){
         cache:false,
         beforeSend:function(request){
         //sebelum kirim
-        $('#
+        $('#logResponse').html('');
+        $('#cover-spin').show(0);
+        },
+        success:function(s){
+          //console.log(s);
+
+          $('#cover-spin').hide();
+
+          if(s['status'] == false)
+          {
+            $('#access_token_temp').val('');
+            $('#checkQuotaSection').attr('style', 'display: none;');
+            $('#logResponse').html(s['message']);
+          }
+
+          if(s['status'] == true)
+          {
+            $('#auth_id').val('');
+            $('#otp').val('');
+            $('#logResponse').html(s['message']);
+
+            $('#access_token_temp').val(s['data']['access_token']);
+            $('#checkQuotaSection').attr('style', 'display: block;');
+          }
+        }
+      });
+    });
+
+    $('#checkQuota').click(function(){
+        $.ajax({
+        type:'POST',
+        crossDomain: true,
+        url: "https://nomorxlku.my.id/api/check_quota.php",
+        data:{access_token:$('#access_token_temp').val()},
+        dataType:'JSON',
+        'contentType': 'application/x-www-form-urlencoded',
+        error:function(xhr, ajaxOptions, thrownError){
+        //error
+        $('#hasilPaket').hide();
+        $('#logResponse').html('Terjadi kesalahan, silakan coba lagi!');
+        $('#cover-spin').hide();
+        },
+        cache:false,
+        beforeSend:function(request){
+        //sebelum kirim
+        $('#logResponse').html('');
+        $('#cover-spin').show(0);
+        },
+        success:function(s){
+          //console.log(s);
+
+          $('#cover-spin').hide();
+
+          if(s['status'] == false)
+          {
+            $('#hasilPaket').hide();
+          }
+
+          if(s['status'] == true)
+          {
+            jsonData = {};
+            jsonData = s;
+            populateTable();
+            $('#hasilPaket').show();
+          }
+        }
+      });
+    });
+});
+
+function populateTable()
+{
+        var tableBody = document.getElementById("packageTableBody");
+        $('#packageTableBody').html('');
+
+        jsonData.data.quotas.forEach(function(quota) {
+            var benefitsHtml = "";
+            quota.benefits.forEach(function(benefit) {
+                benefitsHtml += `<p>${benefit.name}: ${benefit.quota} ( ${benefit.remaining_quota} remaining )</p>`;
+            });
+
+            var row = `
+                <tr>
+                    <td>${quota.name}</td>
+                    <td>${quota.expired_at}</td>
+                    <td>${benefitsHtml}</td>
+                </tr>
+            `;
+
+            tableBody.innerHTML += row;
+        });
+}
+</script>
+
+</body>
+</html>
