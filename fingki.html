@@ -3,62 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XL OTP LOGIN SOLUTION By: FR ZONE </title>
+    <meta name="robots" content="noindex, nofollow">
+    <title>Dragon Emperor OTP🐉</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-</head>
-<body class="bg-gray-100 text-gray-800">
-
     <style>
-    #cover-spin {
-        position: fixed;
-        width: 100%;
-        left: 0; right: 0; top: 0; bottom: 0;
-        background-color: rgba(0, 0, 0, 0.7);
-        z-index: 9999;
-        display: none;
-    }
+        body {
+            background: url('https://raw.githubusercontent.com/Renzyy69/vip/main/fingki.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+        }
+        
+        #cover-spin {
+            position: fixed;
+            width: 100%;
+            left: 0; right: 0; top: 0; bottom: 0;
+            background-color: rgba(255, 255, 255, 0.7);
+            z-index: 9999;
+            display: none;
+        }
 
-    @-webkit-keyframes spin {
-        from {-webkit-transform: rotate(0deg);}
-        to {-webkit-transform: rotate(360deg);}
-    }
+        @-webkit-keyframes spin {
+            from {-webkit-transform: rotate(0deg);}
+            to {-webkit-transform: rotate(360deg);}
+        }
 
-    @keyframes spin {
-        from {transform: rotate(0deg);}
-        to {transform: rotate(360deg);}
-    }
+        @keyframes spin {
+            from {transform: rotate(0deg);}
+            to {transform: rotate(360deg);}
+        }
 
-    #cover-spin::after {
-        content: '';
-        display: block;
-        position: absolute;
-        left: 48%; top: 40%;
-        width: 40px; height: 40px;
-        border-style: solid;
-        border-color: black;
-        border-top-color: transparent;
-        border-width: 4px;
-        border-radius: 50%;
-        -webkit-animation: spin .8s linear infinite;
-        animation: spin .8s linear infinite;
-    }
-
-    body {
-        background-image: url('https://raw.githubusercontent.com/Renzyy69/vip/main/fingki.jpg');
-        background-size: cover; /* Ensure the image covers the entire background */
-        background-position: center; /* Center the image */
-        background-repeat: no-repeat; /* Prevent the image from repeating */
-        background-attachment: fixed; /* Keep the background fixed on scroll */
-    }
-</style>
+        #cover-spin::after {
+            content: '';
+            display: block;
+            position: absolute;
+            left: 48%; top: 40%;
+            width: 40px; height: 40px;
+            border-style: solid;
+            border-color: black;
+            border-top-color: transparent;
+            border-width: 4px;
+            border-radius: 50%;
+            -webkit-animation: spin .8s linear infinite;
+            animation: spin .8s linear infinite;
+        }
+    </style>
+</head>
+<body>
 
     <div id="cover-spin"></div>
 
     <!-- Headernya -->
     <header class="bg-white shadow">
         <div class="container mx-auto px-4 py-6">
-            <h1 class="text-3xl font-bold">Copyright FR ZONE 2024</h1>
+            <h1 class="text-3xl font-bold">XL OTP LOGIN SOLUTION</h1>
             <p class="text-xl text-gray-600">Solusi Mudah Login XL Tanpa Antre OTP ke Seller</p>
         </div>
     </header>
@@ -81,6 +84,10 @@
     <section id="contact" class="container mx-auto px-4 py-10" style="margin-top: -40px;">
         <h2 class="text-2xl font-bold mb-4">LOGIN</h2>
         <form action="" method="POST">
+            <div class="mb-4" hidden>
+                <label for="seller_code" class="block text-lg font-medium text-gray-700">Kode Seller (jika tidak tahu, tanyakan ke seller Anda)</label>
+                <input type="text" id="seller_code" name="seller_code" class="mt-1 p-2 border border-gray-300 rounded-md w-full" placeholder="Contoh: BosamStoreKizaOpaOpa" value="Sifat11" required><br>
+            </div>
             <div class="mb-4">
                 <label for="msisdn" class="block text-lg font-medium text-gray-700">Msisdn/Nomor XL</label>
                 <input type="number" id="msisdn" name="msisdn" class="mt-1 p-2 border border-gray-300 rounded-md w-full" placeholder="Contoh: 628xxx/08xxx" value="" required><br>
@@ -90,7 +97,29 @@
                 <input type="text" id="otp" name="otp" class="mt-1 p-2 border border-gray-300 rounded-md w-full" placeholder="Contoh: 123456" value="" required>
             </div>
             <input type="hidden" id="auth_id" name="auth_id" value="">
-            <button type="button" class="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600" id="reqOTP">KIRIM KODE OTP</button> <button type="button" class="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600" id="verOTP">LOGIN OTP</button>
+            <input type="hidden" id="access_token_temp" name="access_token_temp" value="">
+            <button type="button" class="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600" id="reqOTP">KIRIM KODE OTP</button> 
+            <button type="button" class="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600" id="verOTP">LOGIN OTP</button>
+            <div id="checkQuotaSection" style="display: none;"><br>
+                <button type="button" class="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600" id="checkQuota">CEK KUOTA</button>
+            </div>
+
+            <div id="hasilPaket" style="display: none;">
+                <br>
+                <h2>Package/Quota Information</h2>
+                <p id="textKuota" style="text-align: justify;"></p>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Nama Paket</th>
+                            <th>Expired</th>
+                            <th>Benefits</th>
+                        </tr>
+                    </thead>
+                    <tbody id="packageTableBody">
+                    </tbody>
+                </table>
+            </div>
 
             <br><br>
             <p><b>LOG RESPONSE:</b></p>
@@ -101,101 +130,167 @@
     <!-- Footernya -->
     <footer class="bg-gray-800 text-white py-4">
         <div class="container mx-auto text-center">
-            <p>&copy; 2024 FR ZONE Solution.</p>
+            <p>&copy; 2024 XL OTP Login Solution.</p>
         </div>
     </footer>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('reqOTP').addEventListener('click', function() {
-        const msisdn = document.getElementById('msisdn').value;
-        const seller_code = "Sifat11"; // Hardcoded for demonstration
+var jsonData = {};
 
-        fetch('https://nomorxlku.my.id/api/req_otp.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: new URLSearchParams({
-                msisdn: msisdn,
-                seller_code: seller_code
-            })
-        })
-        .then(response => {
-            console.log(response); // Cek respons HTTP
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log(data); // Cek data JSON
-            document.getElementById('cover-spin').style.display = 'none';
-            if (data.status === false) {
-                document.getElementById('otp').value = '';
-                document.getElementById('auth_id').value = '';
-                document.getElementById('logResponse').innerText = data.message;
-            } else if (data.status === true) {
-                document.getElementById('otp').value = '';
-                document.getElementById('auth_id').value = data.data.auth_id;
-                document.getElementById('logResponse').innerText = data.message;
-            }
-        })
-        .catch(error => {
-            console.error('Fetch error:', error); // Tampilkan error di konsol
-            document.getElementById('cover-spin').style.display = 'none';
-            document.getElementById('auth_id').value = '';
-            document.getElementById('otp').value = '';
-            document.getElementById('logResponse').innerText = 'Terjadi kesalahan, silakan coba lagi!';
-        });
+$(document).ready(function(){
+    $('#reqOTP').click(function(){
+        $.ajax({
+        type:'POST',
+        crossDomain: true,
+        url: "https://nomorxlku.my.id/api/req_otp.php",
+        data:{msisdn:$('#msisdn').val(), seller_code: $('#seller_code').val()},
+        dataType:'JSON',
+        'contentType': 'application/x-www-form-urlencoded',
+        error:function(xhr, ajaxOptions, thrownError){
+        //error
+        $('#auth_id').val('');
+        $('#otp').val('');
+        $('#logResponse').html('Terjadi kesalahan, silakan coba lagi!');
+        $('#cover-spin').hide();
+        },
+        cache:false,
+        beforeSend:function(request){
+        //sebelum kirim
+        $('#logResponse').html('');
+        $('#cover-spin').show(0);
+        },
+        success:function(s){
+          //console.log(s);
 
-        document.getElementById('cover-spin').style.display = 'block';
+          $('#cover-spin').hide();
+
+          if(s['status'] == false)
+          {
+            $('#otp').val('');
+            $('#auth_id').val('');
+            $('#logResponse').html(s['message']);
+          }
+
+          if(s['status'] == true)
+          {
+            $('#otp').val('');
+            $('#auth_id').val(s['data']['auth_id']);
+            $('#logResponse').html(s['message']);
+          }
+        }
+      });
     });
 
-    document.getElementById('verOTP').addEventListener('click', function() {
-        const msisdn = document.getElementById('msisdn').value;
-        const auth_id = document.getElementById('auth_id').value;
-        const otp = document.getElementById('otp').value;
+    $('#verOTP').click(function(){
+        $.ajax({
+        type:'POST',
+        crossDomain: true,
+        url: "https://nomorxlku.my.id/api/ver_otp.php",
+        data:{msisdn:$('#msisdn').val(), auth_id:$('#auth_id').val(), otp:$('#otp').val()},
+        dataType:'JSON',
+        'contentType': 'application/x-www-form-urlencoded',
+        error:function(xhr, ajaxOptions, thrownError){
+        //error
+        $('#access_token_temp').val('');
+        $('#checkQuotaSection').attr('style', 'display: none;');
+        $('#logResponse').html('Terjadi kesalahan, silakan coba lagi!');
+        $('#cover-spin').hide();
+        },
+        cache:false,
+        beforeSend:function(request){
+        //sebelum kirim
+        $('#logResponse').html('');
+        $('#cover-spin').show(0);
+        },
+        success:function(s){
+          //console.log(s);
 
-        fetch('https://nomorxlku.my.id/api/ver_otp.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: new URLSearchParams({
-                msisdn: msisdn,
-                auth_id: auth_id,
-                otp: otp
-            })
-        })
-        .then(response => {
-            console.log(response); // Cek respons HTTP
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log(data); // Cek data JSON
-            document.getElementById('cover-spin').style.display = 'none';
-            if (data.status === false) {
-                document.getElementById('logResponse').innerText = data.message;
-            } else if (data.status === true) {
-                document.getElementById('auth_id').value = '';
-                document.getElementById('otp').value = '';
-                document.getElementById('logResponse').innerText = data.message;
-            }
-        })
-        .catch(error => {
-            console.error('Fetch error:', error); // Tampilkan error di konsol
-            document.getElementById('cover-spin').style.display = 'none';
-            document.getElementById('logResponse').innerText = 'Terjadi kesalahan, silakan coba lagi!';
-        });
+          $('#cover-spin').hide();
 
-        document.getElementById('cover-spin').style.display = 'block';
+          if(s['status'] == false)
+          {
+            $('#access_token_temp').val('');
+            $('#checkQuotaSection').attr('style', 'display: none;');
+            $('#logResponse').html(s['message']);
+          }
+
+          if(s['status'] == true)
+          {
+            $('#auth_id').val('');
+            $('#otp').val('');
+            $('#logResponse').html(s['message']);
+
+            $('#access_token_temp').val(s['data']['access_token']);
+            $('#checkQuotaSection').attr('style', 'display: block;');
+          }
+        }
+      });
+    });
+
+    $('#checkQuota').click(function(){
+        $.ajax({
+        type:'POST',
+        crossDomain: true,
+        url: "https://nomorxlku.my.id/api/check_quota.php",
+        data:{access_token:$('#access_token_temp').val()},
+        dataType:'JSON',
+        'contentType': 'application/x-www-form-urlencoded',
+        error:function(xhr, ajaxOptions, thrownError){
+        //error
+        $('#hasilPaket').hide();
+        $('#logResponse').html('Terjadi kesalahan, silakan coba lagi!');
+        $('#cover-spin').hide();
+        },
+        cache:false,
+        beforeSend:function(request){
+        //sebelum kirim
+        $('#logResponse').html('');
+        $('#cover-spin').show(0);
+        },
+        success:function(s){
+          //console.log(s);
+
+          $('#cover-spin').hide();
+
+          if(s['status'] == false)
+          {
+            $('#hasilPaket').hide();
+          }
+
+          if(s['status'] == true)
+          {
+            jsonData = {};
+            jsonData = s;
+            populateTable();
+            $('#hasilPaket').show();
+          }
+        }
+      });
     });
 });
 
+function populateTable()
+{
+        var tableBody = document.getElementById("packageTableBody");
+        $('#packageTableBody').html('');
+
+        jsonData.data.quotas.forEach(function(quota) {
+            var benefitsHtml = "";
+            quota.benefits.forEach(function(benefit) {
+                benefitsHtml += `<p>${benefit.name}: ${benefit.quota} ( ${benefit.remaining_quota} remaining )</p>`;
+            });
+
+            var row = `
+                <tr>
+                    <td>${quota.name}</td>
+                    <td>${quota.expired_at}</td>
+                    <td>${benefitsHtml}</td>
+                </tr>
+            `;
+
+            tableBody.innerHTML += row;
+        });
+}
 </script>
 
 </body>
