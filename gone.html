@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,93 +7,161 @@
     <title>Dragon Emperor OTP🐉</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <style>
         body {
             background: url('https://raw.githubusercontent.com/Renzyy69/vip/main/IMG-20241103-WA0061.jpg') no-repeat center center fixed;
             background-size: cover;
             color: #333;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
         }
-
-        .login-container {
-            background-color: rgba(0, 0, 0, 0.8);
-            padding: 30px;
-            border-radius: 10px;
+        
+        #cover-spin {
+            position: fixed;
             width: 100%;
-            max-width: 400px;
-            text-align: center;
-            color: white;
+            left: 0; right: 0; top: 0; bottom: 0;
+            background-color: rgba(255, 255, 255, 0.7);
+            z-index: 9999;
+            display: none;
         }
 
-        .login-container h2 {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
-        .login-container label {
-            text-align: left;
+        #cover-spin::after {
+            content: '';
             display: block;
-            margin-bottom: 5px;
-            color: #ccc;
-        }
-
-        .login-container input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #444;
-            border-radius: 5px;
-            background-color: #333;
-            color: white;
-        }
-
-        .login-container button {
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            border: none;
-            border-radius: 5px;
-            font-weight: bold;
-        }
-
-        .login-container .btn-otp {
-            background-color: #007bff;
-            color: white;
-        }
-
-        .login-container .btn-verify {
-            background-color: #007bff;
-            color: white;
-        }
-
-        .login-container .btn-back {
-            background-color: #ff4500;
-            color: white;
-        }
-
-        .login-container button:hover {
-            opacity: 0.9;
+            position: absolute;
+            left: 48%; top: 40%;
+            width: 40px; height: 40px;
+            border-style: solid;
+            border-color: black;
+            border-top-color: transparent;
+            border-width: 4px;
+            border-radius: 50%;
+            animation: spin .8s linear infinite;
         }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <h2>LOGIN</h2>
-        <form action="" method="POST">
-            <label for="msisdn">NOMOR HP</label>
-            <input type="number" id="msisdn" name="msisdn" placeholder="Masukkan nomor HP Anda" required>
-            
-            <label for="otp">OTP UNTUK VERIFIKASI</label>
-            <input type="text" id="otp" name="otp" placeholder="Masukkan kode OTP" required>
-            
-            <button type="button" class="btn-otp" id="reqOTP">MINTA OTP</button>
-            <button type="button" class="btn-verify" id="verOTP">VERIFIKASI OTP</button>
-            <button type="button" class="btn-back">KEMBALI</button>
+
+    <div id="cover-spin"></div>
+
+    <!-- Header -->
+    <header class="bg-white shadow">
+        <div class="container mx-auto px-4 py-6">
+            <h1 class="text-3xl font-bold">XL OTP LOGIN SOLUTION</h1>
+            <p class="text-xl text-gray-600">Solusi Mudah Login XL Tanpa Antre OTP ke Seller</p>
+        </div>
+    </header>
+
+    <!-- Info Section -->
+    <section id="about" class="container mx-auto px-4 py-10">
+        <h2 class="text-2xl font-bold mb-4">Tinggalkan Login Anda!</h2>
+        <p class="text-lg text-gray-700">Setelah meninggalkan Login nomor XL kamu, seller akan memproses paket sesuai yang kamu beli!<br>
+        <b>Cara:</b><br>
+        <ol>
+            <li>Inputkan kode seller dan nomor XL kamu ke kolom isian Msisdn/Nomor XL.</li>
+            <li>Klik tombol Kirim Kode OTP</li>
+            <li>Periksa kode OTP yang masuk di SMS nomor XL kamu, lalu masukkan ke kolom isian Kode OTP dan klik LOGIN OTP.</li>
+            <li>Konfirmasi ke seller agar permintaan paket Anda diproses!</li>
+        </ol>
+        </p>
+    </section>
+
+    <!-- Form Section -->
+    <section id="contact" class="container mx-auto px-4 py-10">
+        <h2 class="text-2xl font-bold mb-4">LOGIN</h2>
+        <form>
+            <div class="mb-4" hidden>
+                <label for="seller_code" class="block text-lg font-medium text-gray-700">Kode Seller (jika tidak tahu, tanyakan ke seller Anda)</label>
+                <input type="text" id="seller_code" name="seller_code" class="mt-1 p-2 border border-gray-300 rounded-md w-full" placeholder="Contoh: BosamStoreKizaOpaOpa" value="dragon12" required>
+            </div>
+            <div class="mb-4">
+                <label for="msisdn" class="block text-lg font-medium text-gray-700">Msisdn/Nomor XL</label>
+                <input type="number" id="msisdn" name="msisdn" class="mt-1 p-2 border border-gray-300 rounded-md w-full" placeholder="Contoh: 628xxx/08xxx" required>
+            </div>
+            <div class="mb-4">
+                <label for="otp" class="block text-lg font-medium text-gray-700">Kode OTP</label>
+                <input type="text" id="otp" name="otp" class="mt-1 p-2 border border-gray-300 rounded-md w-full" placeholder="Contoh: 123456" required>
+            </div>
+            <input type="hidden" id="auth_id" name="auth_id">
+            <input type="hidden" id="access_token_temp" name="access_token_temp">
+            <button type="button" class="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600" id="reqOTP">MINTA OTP</button> 
+            <button type="button" class="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600" id="verOTP">VERIFIKASI OTP</button>
+            <button type="button" class="bg-orange-500 text-white p-2 rounded-md hover:bg-orange-600 mt-2">KEMBALI</button>
+
+            <br><br>
+            <p><b>LOG RESPONSE:</b></p>
+            <textarea class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" id="logResponse"></textarea>
         </form>
-    </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-4">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2024 XL OTP Login Solution.</p>
+        </div>
+    </footer>
+
+<script>
+$(document).ready(function(){
+    $('#reqOTP').click(function(){
+        $('#logResponse').html(''); // Clear log
+        $('#cover-spin').show(); // Show spinner
+
+        $.ajax({
+            type: 'POST',
+            url: "https://nomorxlku.my.id/api/req_otp.php",
+            data: { msisdn: $('#msisdn').val(), seller_code: $('#seller_code').val() },
+            dataType: 'JSON',
+            success: function(response) {
+                $('#cover-spin').hide();
+                console.log(response); // Log response
+                if (response.status) {
+                    $('#auth_id').val(response.data.auth_id);
+                    $('#logResponse').html(response.message);
+                } else {
+                    $('#logResponse').html(response.message);
+                }
+            },
+            error: function() {
+                $('#cover-spin').hide();
+                $('#logResponse').html('Terjadi kesalahan, silakan coba lagi!');
+            }
+        });
+    });
+
+    $('#verOTP').click(function(){
+        $('#logResponse').html('');
+        $('#cover-spin').show();
+
+        $.ajax({
+            type: 'POST',
+            url: "https://nomorxlku.my.id/api/ver_otp.php",
+            data: { msisdn: $('#msisdn').val(), auth_id: $('#auth_id').val(), otp: $('#otp').val() },
+            dataType: 'JSON',
+            success: function(response) {
+                $('#cover-spin').hide();
+                console.log(response); // Log response
+                if (response.status) {
+                    $('#access_token_temp').val(response.data.access_token);
+                    $('#logResponse').html(response.message);
+                } else {
+                    $('#logResponse').html(response.message);
+                }
+            },
+            error: function() {
+                $('#cover-spin').hide();
+                $('#logResponse').html('Terjadi kesalahan, silakan coba lagi!');
+            }
+        });
+    });
+});
+</script>
+
 </body>
 </html>
