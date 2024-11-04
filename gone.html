@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Dragon Emperor OTP🐉</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url('https://raw.githubusercontent.com/Renzyy69/vip/main/IMG-20241103-WA0061.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 30px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            color: white;
+        }
+
+        .login-container h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .login-container label {
+            text-align: left;
+            display: block;
+            margin-bottom: 5px;
+            color: #ccc;
+        }
+
+        .login-container input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #444;
+            border-radius: 5px;
+            background-color: #333;
+            color: white;
+        }
+
+        .login-container button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .login-container .btn-otp {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .login-container .btn-verify {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .login-container .btn-back {
+            background-color: #ff4500;
+            color: white;
+        }
+
+        .login-container button:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>LOGIN</h2>
+        <form action="" method="POST">
+            <label for="msisdn">NOMOR HP</label>
+            <input type="number" id="msisdn" name="msisdn" placeholder="Masukkan nomor HP Anda" required>
+            
+            <label for="otp">OTP UNTUK VERIFIKASI</label>
+            <input type="text" id="otp" name="otp" placeholder="Masukkan kode OTP" required>
+            
+            <button type="button" class="btn-otp" id="reqOTP">MINTA OTP</button>
+            <button type="button" class="btn-verify" id="verOTP">VERIFIKASI OTP</button>
+            <button type="button" class="btn-back">KEMBALI</button>
+        </form>
+    </div>
+</body>
+</html>
