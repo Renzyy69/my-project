@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sidompul Dragon Emperor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #4CAF50;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:disabled {
+            background-color: #aaa;
+            cursor: not-allowed;
+        }
+        .info, .kuota-container {
+            display: none;
+            margin-top: 15px;
+        }
+        .info p {
+            margin: 5px 0;
+        }
+        .kuota-item {
+            padding: 8px;
+            background: #f9f9f9;
+            border-left: 4px solid #4CAF50;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+        .kuota-detail {
+            font-size: 14px;
+            color: #555;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>✅ Cek Paket Dompul</h2>
+
+    <div class="form-group">
+        <label for="nomor">Masukkan Nomor HP:</label>
+        <input type="text" id="nomor" placeholder="Contoh: 081234567890">
+    </div>
+    <button onclick="cekPaket()">🔍 Cek Paket</button>
+
+    <div id="hasil" class="info"></div>
+    <div id="kuota-container" class="kuota-container"></div>
+</div>
+
+<script>
+    async function cekPaket() {
+        let nomorInput = document.getElementById('nomor').value.trim();
+        if (!nomorInput) {
+            alert("Masukkan nomor HP terlebih dahulu!");
+            return;
+        }
+
+        let nomor = nomorInput.replace(/^0/, '62'); 
+        let deviceId = "0lb3hmsg2glj5cs6";
+        let apiUrl = 'https://end.kaje-store.com/api/sidompul/cek_package';
+        let apiToken = '4cba7f7da99d5fe5dad8fd9baafaa4cdd582ce60';
+
+        let requestBody = JSON.stringify({
+            "number": nomor,
+            "device_id": deviceId
+        });
+
+        document.getElementById('hasil').innerHTML = "⏳ Sedang memeriksa...";
+        document.getElementById('hasil').style.display = "block";
+        document.getElementById('kuota-container').style.display = "none";
+
+        try {
+            let response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Accept': '*/*',
+                    'x-api-token': apiToken,
+                    'Content-Type': 'application/json'
+                },
+                body: requestBody
+            });
+
+            let data = await response.json();
+
+            if (!data.success) {
+                document.getElementById('hasil').innerHTML = "❌ Gagal mengecek paket. Coba lagi nanti.";
+                return;
+            }
+
+            let hasilHTML = `
+                <p><strong>📞 Nomor:</strong> ${nomor}</p>
+                <p><strong>🏛️ Status Dukcapil:</strong> ${data.data.dukcapil?.value || '-'}</p>
+                <p><strong>🗓️ Umur Kartu:</strong> ${data.data.active_card?.value || '-'}</p>
+                <p><strong>📆 Masa Aktif:</strong> ${data.data.active_period?.value || '-'}</p>
+                <p><strong>⌛ Masa Tenggang:</strong> ${data.data.grace_period?.value || '-'}</p>
+                <p><strong>📶 Status Simcard:</strong> ${data.data.status_4g?.value || '-'}</p>
+            `;
+            
+            document.getElementById('hasil').innerHTML = hasilHTML;
+            document.getElementById('kuota-container').innerHTML = "<h3>📦 Detail Kuota:</h3>";
+            
+            let quotas = data.data.quotas?.value || [];
+            if (quotas.length === 0) {
+                document.getElementById('kuota-container').innerHTML += "<p>- Tidak ada kuota terdaftar.</p>";
+            } else {
+                quotas.forEach(paket => {
+                    let paketHTML = `<div class="kuota-item">
+                        <p><strong>📌 ${paket.name} (Aktif Sampai ${paket.date_end})</strong></p>`;
+                    
+                    paket.detail_quota.forEach(kuota => {
+                        paketHTML += `<p class="kuota-detail">✔ ${kuota.name}: <strong>${kuota.remaining_text}</strong> dari ${kuota.total_text}</p>`;
+                    });
+
+                    paketHTML += `</div>`;
+                    document.getElementById('kuota-container').innerHTML += paketHTML;
+                });
+            }
+
+            document.getElementById('kuota-container').style.display = "block";
+
+        } catch (error) {
+            console.error("Error:", error);
+            document.getElementById('hasil').innerHTML = "❌ Terjadi kesalahan saat mengecek paket.";
+        }
+    }
+</script>
+
+</body>
+</html>
