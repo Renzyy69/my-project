@@ -27,6 +27,11 @@
         pre {
             white-space: pre-wrap;
             word-wrap: break-word;
+            font-size: 16px;
+        }
+        textarea {
+            height: 100px; /* Perbesar input box */
+            resize: vertical; /* Bisa diperbesar manual */
         }
     </style>
 </head>
@@ -40,7 +45,7 @@
             <form id="cekKuotaForm">
                 <div class="mb-3">
                     <label for="nomor" class="form-label">Masukkan Nomor HP (pisahkan dengan koma atau spasi)</label>
-                    <input type="text" id="nomor" name="nomor" class="form-control" placeholder="Contoh: 6287768005790, 087821979833" required>
+                    <textarea id="nomor" name="nomor" class="form-control" placeholder="Contoh: 6287768005790, 087821979833" required></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Cek Paket</button>
             </form>
@@ -89,7 +94,7 @@
 
                 // Validasi nomor
                 if (!/^08\d{8,11}$/.test(nomorHP)) {
-                    hasilAkhir.push(`❌ ${nomor}: Format tidak valid.`);
+                    hasilAkhir.push(`❌ ${nomor}: Format tidak valid.\n---`);
                     continue;
                 }
 
@@ -111,7 +116,7 @@
                     let data = await response.json();
 
                     if (data.statusCode !== 200) {
-                        hasilAkhir.push(`❌ ${nomor}: ${data.message || "Gagal memproses."}`);
+                        hasilAkhir.push(`❌ ${nomor}: ${data.message || "Gagal memproses."}\n---`);
                     } else {
                         let hasilKuota = data.data.hasil
                             .replace(/<br>/g, "\n")
@@ -119,15 +124,15 @@
                             .replace(/📃.*\n?/u, "")
                             .trim();
 
-                        hasilAkhir.push(`✅ ${nomor}:\n${hasilKuota}`);
+                        hasilAkhir.push(`✅ ${nomor}:\n${hasilKuota}\n---`);
                     }
                 } catch (error) {
-                    hasilAkhir.push(`❌ ${nomor}: ${error.message}`);
+                    hasilAkhir.push(`❌ ${nomor}: ${error.message}\n---`);
                 }
             }
 
             responseMessage.className = hasilAkhir.some(h => h.startsWith("❌")) ? "alert alert-danger" : "alert alert-success";
-            resultText.textContent = hasilAkhir.join("\n\n");
+            resultText.textContent = hasilAkhir.join("\n");
         });
     </script>
 
