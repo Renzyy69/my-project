@@ -24,6 +24,10 @@
             font-size: 14px;
             color: #666;
         }
+        pre {
+            white-space: pre-wrap; /* Agar teks bisa wrap */
+            word-wrap: break-word;
+        }
     </style>
 </head>
 <body>
@@ -41,7 +45,9 @@
                 <button type="submit" class="btn btn-primary w-100">Cek Paket</button>
             </form>
 
-            <div class="alert mt-3" id="responseMessage" style="display: none;"></div>
+            <div class="alert mt-3" id="responseMessage" style="display: none;">
+                <pre id="resultText"></pre>
+            </div>
         </div>
     </div>
 
@@ -55,6 +61,7 @@
             
             let nomor = document.getElementById("nomor").value.trim();
             let responseMessage = document.getElementById("responseMessage");
+            let resultText = document.getElementById("resultText");
 
             // Hapus karakter non-digit
             let nomorHP = nomor.replace(/\D/g, "");
@@ -68,13 +75,13 @@
             if (!/^08\d{8,11}$/.test(nomorHP)) {
                 responseMessage.style.display = "block";
                 responseMessage.className = "alert alert-danger";
-                responseMessage.textContent = "❌ Format nomor HP tidak valid. Masukkan nomor yang benar.";
+                resultText.textContent = "❌ Format nomor HP tidak valid. Masukkan nomor yang benar.";
                 return;
             }
 
             responseMessage.style.display = "block";
             responseMessage.className = "alert alert-info";
-            responseMessage.textContent = "🔄 Memproses permintaan...";
+            resultText.textContent = "🔄 Memproses permintaan...";
 
             // URL API
             let apiUrl = `https://apigw.kmsp-store.com/sidompul/v3/cek_kuota?msisdn=${nomorHP}&isJSON=true`;
@@ -99,15 +106,18 @@
                 }
 
                 // Format hasil kuota agar lebih rapi
-                let hasilKuota = data.data.hasil.replace(/<br>/g, "\n");
-                hasilKuota = hasilKuota.replace(/📲.*\n?/u, "").replace(/📃.*\n?/u, "");
+                let hasilKuota = data.data.hasil
+                    .replace(/<br>/g, "\n") // Ganti <br> dengan newline
+                    .replace(/📲.*\n?/u, "") // Hapus "📲 *Nomor:* ..."
+                    .replace(/📃.*\n?/u, "") // Hapus "📃 RESULT:"
+                    .trim(); // Hilangkan spasi kosong di awal/akhir
 
                 responseMessage.className = "alert alert-success";
-                responseMessage.textContent = hasilKuota;
+                resultText.textContent = hasilKuota;
 
             } catch (error) {
                 responseMessage.className = "alert alert-danger";
-                responseMessage.textContent = error.message;
+                resultText.textContent = error.message;
             }
         });
     </script>
