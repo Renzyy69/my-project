@@ -1,95 +1,124 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>GPT-4o-Turbo Web Interface</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-      background: #f4f4f4;
-    }
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-    h1 {
-      text-align: center;
-      color: #333;
-    }
-    input[type="text"] {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      box-sizing: border-box;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    button {
-      display: block;
-      width: 100%;
-      padding: 10px;
-      background: #007BFF;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    button:hover {
-      background: #0056b3;
-    }
-    #response {
-      margin-top: 20px;
-      padding: 10px;
-      border: 1px solid #ccc;
-      background: #fafafa;
-      border-radius: 4px;
-      min-height: 50px;
-      white-space: pre-wrap;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot GPT-4o Turbo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        .chat-container {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background-color: white;
+        }
+        .chat-box {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .message {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        .user {
+            background-color: #d1e7dd;
+            text-align: right;
+        }
+        .bot {
+            background-color: #e9ecef;
+        }
+        .input-container {
+            display: flex;
+            padding: 10px;
+            background: white;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+        }
+        input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-left: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>GPT-4o-Turbo Web Interface</h1>
-    <p>Masukkan pertanyaan Anda:</p>
-    <input type="text" id="question" placeholder="Tulis pertanyaan di sini...">
-    <button onclick="askGPT()">Kirim</button>
-    <div id="response"></div>
-  </div>
 
-  <script>
-    function askGPT() {
-      const question = document.getElementById('question').value;
-      const responseDiv = document.getElementById('response');
-      
-      if (!question) {
-        responseDiv.textContent = 'Harap masukkan pertanyaan!';
-        return;
-      }
-      
-      responseDiv.textContent = 'Loading...';
-      const url = `https://fastrestapis.fasturl.cloud/aillm/gpt-4o-turbo?ask=${encodeURIComponent(question)}`;
-      
-      fetch(url)
-        .then(res => res.json())
-        .then(data => {
-          if (data.status === 200) {
-            responseDiv.innerHTML = `<strong>Jawaban:</strong> ${data.result}`;
-          } else {
-            responseDiv.textContent = 'Gagal mendapatkan jawaban.';
-          }
-        })
-        .catch(error => {
-          responseDiv.textContent = 'Error: ' + error.message;
-        });
+<div class="chat-container" id="chat-container">
+    <div class="chat-box" id="chat-box">
+        <div class="message bot">Halo! Saya Chatbot. Silakan bertanya.</div>
+    </div>
+</div>
+
+<div class="input-container">
+    <input type="text" id="user-input" placeholder="Ketik pertanyaan..." onkeypress="handleKeyPress(event)">
+    <button onclick="sendMessage()">Kirim</button>
+</div>
+
+<script>
+    async function sendMessage() {
+        const userInput = document.getElementById("user-input").value;
+        if (!userInput.trim()) return;
+
+        const chatBox = document.getElementById("chat-box");
+
+        // Tambahkan pesan pengguna
+        const userMessage = document.createElement("div");
+        userMessage.classList.add("message", "user");
+        userMessage.textContent = userInput;
+        chatBox.appendChild(userMessage);
+
+        document.getElementById("user-input").value = "";
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+        // Ambil jawaban dari API
+        const apiUrl = `https://fastrestapis.fasturl.cloud/aillm/gpt-4o-turbo?ask=${encodeURIComponent(userInput)}`;
+        try {
+            const response = await fetch(apiUrl);
+            const data = await response.json();
+            const botMessage = document.createElement("div");
+            botMessage.classList.add("message", "bot");
+            botMessage.textContent = data.result || "Maaf, terjadi kesalahan.";
+            chatBox.appendChild(botMessage);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        } catch (error) {
+            const errorMessage = document.createElement("div");
+            errorMessage.classList.add("message", "bot");
+            errorMessage.textContent = "Terjadi kesalahan saat mengambil jawaban.";
+            chatBox.appendChild(errorMessage);
+        }
     }
-  </script>
+
+    function handleKeyPress(event) {
+        if (event.key === "Enter") {
+            sendMessage();
+        }
+    }
+</script>
+
 </body>
 </html>
