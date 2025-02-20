@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GPT-4o-Turbo Web Interface</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f4f4f4;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background: #007BFF;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    #response {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      background: #fafafa;
+      border-radius: 4px;
+      min-height: 50px;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>GPT-4o-Turbo Web Interface</h1>
+    <p>Masukkan pertanyaan Anda:</p>
+    <input type="text" id="question" placeholder="Tulis pertanyaan di sini...">
+    <button onclick="askGPT()">Kirim</button>
+    <div id="response"></div>
+  </div>
+
+  <script>
+    function askGPT() {
+      const question = document.getElementById('question').value;
+      const responseDiv = document.getElementById('response');
+      
+      if (!question) {
+        responseDiv.textContent = 'Harap masukkan pertanyaan!';
+        return;
+      }
+      
+      responseDiv.textContent = 'Loading...';
+      const url = `https://fastrestapis.fasturl.cloud/aillm/gpt-4o-turbo?ask=${encodeURIComponent(question)}`;
+      
+      fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          if (data.status === 200) {
+            responseDiv.innerHTML = `<strong>Jawaban:</strong> ${data.result}`;
+          } else {
+            responseDiv.textContent = 'Gagal mendapatkan jawaban.';
+          }
+        })
+        .catch(error => {
+          responseDiv.textContent = 'Error: ' + error.message;
+        });
+    }
+  </script>
+</body>
+</html>
