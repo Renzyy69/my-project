@@ -25,13 +25,24 @@
         th {
             background: #0056b3;
         }
-        button {
+        .btn {
             padding: 5px 10px;
             border: none;
             cursor: pointer;
             font-size: 14px;
+        }
+        .open-btn {
             background: #28a745;
             color: white;
+        }
+        .remove-btn {
+            background: #dc3545;
+            color: white;
+        }
+        input {
+            width: 50%;
+            padding: 5px;
+            margin: 10px 0;
         }
     </style>
     <script>
@@ -51,11 +62,31 @@
                 tableBody.innerHTML = ""; // Kosongkan tabel sebelum menampilkan data baru
 
                 result.data.forEach(item => {
-                    let row = `<tr>
-                        <td>${item.msisdn}</td>
-                        <td><button onclick="openNumber('${item.msisdn}')">Open</button></td>
-                    </tr>`;
-                    tableBody.innerHTML += row;
+                    let row = document.createElement("tr");
+
+                    let msisdnCell = document.createElement("td");
+                    msisdnCell.innerText = item.msisdn;
+
+                    let actionCell = document.createElement("td");
+
+                    let openButton = document.createElement("button");
+                    openButton.innerText = "Open";
+                    openButton.classList.add("btn", "open-btn");
+                    openButton.onclick = () => openNumber(item.msisdn);
+
+                    let removeButton = document.createElement("button");
+                    removeButton.innerText = "Remove";
+                    removeButton.classList.add("btn", "remove-btn");
+                    removeButton.onclick = () => row.remove();
+
+                    actionCell.appendChild(openButton);
+                    actionCell.appendChild(document.createTextNode(" "));
+                    actionCell.appendChild(removeButton);
+
+                    row.appendChild(actionCell);
+                    row.appendChild(msisdnCell);
+
+                    tableBody.appendChild(row);
                 });
             } catch (error) {
                 console.error("Error mengambil data:", error);
@@ -72,11 +103,12 @@
 </head>
 <body>
     <h2>Daftar Nomor HP</h2>
+    <input type="text" placeholder="Cari berdasarkan MSISDN..." onkeyup="filterTable(this.value)">
     <table>
         <thead>
             <tr>
-                <th>MSISDN</th>
                 <th>Action</th>
+                <th>MSISDN</th>
             </tr>
         </thead>
         <tbody id="number-list"></tbody>
