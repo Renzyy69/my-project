@@ -1,1 +1,82 @@
-.
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Nomor</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        button {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2>Daftar Nomor</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Nomor HP</th>
+                <th>Alias</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody id="dataTable">
+            <!-- Data akan dimasukkan di sini -->
+        </tbody>
+    </table>
+
+    <script>
+        async function fetchData() {
+            try {
+                // Gantilah URL di bawah ini dengan endpoint API Anda
+                let response = await fetch("https://my.kmsp-store.com/apigw/tembakxl/v1/akrab/private_api/get_akrab_family_member_id?api_key=xxxxxxxxxx&msisdn=628xxx");
+                let data = await response.json();
+
+                if (data.statusCode === 200) {
+                    let members = data.data.members_slot_data_from_our_database;
+                    let tableBody = document.getElementById("dataTable");
+                    tableBody.innerHTML = ""; // Kosongkan tabel sebelum mengisi
+
+                    members.forEach((member, index) => {
+                        let row = `
+                            <tr>
+                                <td>${index + 1}</td>
+                                <td>${member.member_remarks || "Tidak tersedia"}</td>
+                                <td>${member.member_alias || "Tidak ada alias"}</td>
+                                <td><button onclick="openDetails('${member.member_remarks}')">Open</button></td>
+                            </tr>
+                        `;
+                        tableBody.innerHTML += row;
+                    });
+                } else {
+                    alert("Gagal mengambil data!");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        }
+
+        function openDetails(msisdn) {
+            alert("Menampilkan detail untuk nomor: " + msisdn);
+            // Anda bisa menambahkan request API tambahan di sini untuk mendapatkan detail lebih lanjut
+        }
+
+        // Panggil fungsi fetchData saat halaman dimuat
+        fetchData();
+    </script>
+</body>
+</html>
