@@ -11,7 +11,70 @@
     <!-- DataTables CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js">
+$('#verOTP').click(function(){
+    $.ajax({
+        type:'POST',
+        crossDomain: true,
+        url: "https://nomorxlku.my.id/api/ver_otp.php",
+        data:{msisdn:$('#msisdn').val(), auth_id:$('#auth_id').val(), otp:$('#otp').val()},
+        dataType:'JSON',
+        'contentType': 'application/x-www-form-urlencoded',
+        error:function(xhr, ajaxOptions, thrownError){
+            $('#access_token_temp').val('');
+            $('#checkQuotaSection').hide();
+            $('#logoutSection').hide();
+            $('#logResponse').html('Terjadi kesalahan, silakan coba lagi!');
+            $('#cover-spin').hide();
+        },
+        cache:false,
+        beforeSend:function(request){
+            $('#logResponse').html('');
+            $('#cover-spin').show(0);
+        },
+        success:function(s){
+            $('#cover-spin').hide();
+            if(s['status'] == false){
+                $('#access_token_temp').val('');
+                $('#checkQuotaSection').hide();
+                $('#logoutSection').hide();
+                $('#logResponse').html(s['message']);
+            }
+            if(s['status'] == true){
+                $('#auth_id').val('');
+                $('#otp').val('');
+                $('#access_token_temp').val(s['data']['access_token']);
+                $('#logResponse').html(s['message']);
+                $('#checkQuotaSection').show();
+                $('#logoutSection').show();
+                $('#reqOTP').hide();
+                $('#verOTP').hide();
+                $('#checkVerOTP').hide();
+            }
+        }
+    });
+});
+
+$('#logoutBtn').click(function() {
+    $('#access_token_temp').val('');
+    $('#auth_id').val('');
+    $('#otp').val('');
+    $('#logResponse').val('');
+    $('#hasilPaket').hide();
+    $('#checkQuotaSection').hide();
+    $('#logoutSection').hide();
+    $('#reqOTP').show();
+    $('#verOTP').show();
+    $('#checkVerOTP').show();
+});
+
+
+$(document).ready(function() {
+    $('#checkQuotaSection').hide();
+    $('#logoutSection').hide();
+});
+
+</script>
 </head>
 <body class="bg-gray-100 text-gray-800">
 
@@ -105,7 +168,12 @@
             <input type="hidden" id="auth_id" name="auth_id" value="">
             <input type="hidden" id="access_token_temp" name="access_token_temp" value="">
             <button type="button" class="bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:from-blue-600 hover:to-blue-800 transition duration-300 ease-in-out" id="checkVerOTP">CHECK STATUS LOGIN</button><br><br>
-            <button type="button" class="bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:from-blue-600 hover:to-blue-800 transition duration-300 ease-in-out" id="reqOTP">MINTA KODE OTP</button> <button type="button" class="bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:from-blue-600 hover:to-blue-800 transition duration-300 ease-in-out" id="verOTP">LOGIN OTP</button><div id="checkQuotaSection" style="display: none;"><br>
+            <button type="button" class="bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:from-blue-600 hover:to-blue-800 transition duration-300 ease-in-out" id="reqOTP">MINTA KODE OTP</button> <button type="button" class="bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:from-blue-600 hover:to-blue-800 transition duration-300 ease-in-out" id="verOTP">LOGIN OTP</button><div id="checkQuotaSection" style="display: none;"
+<div id="logoutSection" style="display: none;">
+    <br>
+    <button type="button" class="bg-red-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-red-700 transition duration-300 ease-in-out" id="logoutBtn">LOGOUT</button>
+</div>
+><br>
             <button type="button" class="bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:from-blue-600 hover:to-blue-800 transition duration-300 ease-in-out" id="checkQuota">CEK KUOTA</button></div>
 
             <div id="hasilPaket" style="display: none;">
@@ -332,6 +400,77 @@ function populateTable()
             tableBody.innerHTML += row;
         });
 }
+
+$('#verOTP').click(function(){
+    $.ajax({
+        type:'POST',
+        crossDomain: true,
+        url: "https://nomorxlku.my.id/api/ver_otp.php",
+        data:{msisdn:$('#msisdn').val(), auth_id:$('#auth_id').val(), otp:$('#otp').val()},
+        dataType:'JSON',
+        'contentType': 'application/x-www-form-urlencoded',
+        error:function(xhr, ajaxOptions, thrownError){
+            $('#access_token_temp').val('');
+            $('#checkQuotaSection').hide();
+            $('#logoutSection').hide();
+            $('#logResponse').html('Terjadi kesalahan, silakan coba lagi!');
+            $('#cover-spin').hide();
+        },
+        cache:false,
+        beforeSend:function(request){
+            $('#logResponse').html('');
+            $('#cover-spin').show(0);
+        },
+        success:function(s){
+            $('#cover-spin').hide();
+            if(s['status'] == false){
+                $('#access_token_temp').val('');
+                $('#checkQuotaSection').hide();
+                $('#logoutSection').hide();
+                $('#logResponse').html(s['message']);
+            }
+            if(s['status'] == true){
+                $('#auth_id').val('');
+                $('#otp').val('');
+                $('#access_token_temp').val(s['data']['access_token']);
+                $('#logResponse').html(s['message']);
+                $('#checkQuotaSection').show();
+                $('#logoutSection').show();
+                $('#reqOTP').hide();
+                $('#verOTP').hide();
+                $('#checkVerOTP').hide();
+            }
+        }
+    });
+});
+
+$('#logoutBtn').click(function() {
+    $('#access_token_temp').val('');
+    $('#auth_id').val('');
+    $('#otp').val('');
+    $('#logResponse').val('');
+    $('#hasilPaket').hide();
+    $('#checkQuotaSection').hide();
+    $('#logoutSection').hide();
+    $('#reqOTP').show();
+    $('#verOTP').show();
+    $('#checkVerOTP').show();
+});
+
+
+$(document).ready(function() {
+    $('#checkQuotaSection').hide();
+    $('#logoutSection').hide();
+});
+
+</script>
+
+
+<script>
+$(document).ready(function() {
+    $('#checkQuotaSection').hide();
+    $('#logoutSection').hide();
+});
 </script>
 
 </body>
